@@ -47,14 +47,51 @@ services:
       retries: 10
 
   email-service:
-    build:
-      context: ./email-service
+    build: ../email-service
     container_name: email-service
     restart: unless-stopped
+
     environment:
-    depends_on:
-      - redis
-      - nats
+      LOG_LEVEL: debug
+      APP_NAME: email-service
+      ENVIRONMENT: develop
+      DEV_MODE: "true"
+      MAX_CPU: "0"
+
+      # Redis
+      REDIS_HOST: redis
+      REDIS_PORT: "6379"
+     # REDIS_USER: ""
+     # REDIS_PASS: ""
+      REDIS_DB: "5"
+      REDIS_IDEMPOTENCY_TTL_SEC: "86400"
+
+      # NATS
+      NATS_HOST: nats
+      NATS_PORT: "4222"
+      NATS_STREAM: VERIFICATION
+      NATS_CONSUMER_NAME: email-service
+      NATS_ACK_WAIT_SEC: "30"
+      NATS_MAX_DELIVER: "10"
+      NATS_VERIFICATION_CREATED_SUBJECT: verification.email.created
+      NATS_DELIVERY_FAILED_SUBJECT: verification.email.delivery_failed
+      NATS_MAX_RECONNECTS: "10"
+      NATS_RECONNECT_WAIT: "5000"
+      NATS_FETCH_RETRY_WAIT: "10"
+
+      # SMTP
+      SMTP_HOST: smtp.mail.ru
+      SMTP_PORT: "465"
+      SMTP_USER: remast.sound44@mail.ru
+      SMTP_PASSWORD: "wTd72ob3ZsSnNhNzhyJ3"
+      SMTP_FROM: remast.sound44@mail.ru
+      SMTP_SUBJECT: "Подтверждение регистрации"
+      SMTP_MESSAGE_TEMPLATE: "Перейдите по ссылке:<br><a href='http://{{verification_link}}'>http://{{verification_link}}</a>"
+      SMTP_SEND_TIMEOUT_MS: "5000"
+
+      # security
+      HMAC_SIGNATURE: "53+0ll4YsAXZq+X/t+ZR/UyYncpPI3qf4JYicRd8qT4="
+      BASE_VERIFY_URL: "http://gateway-service:9882/verification/v1"
 
 volumes:
   redis_data:

@@ -14,7 +14,6 @@ import (
 	"github.com/errom502/email-service/internal/source/smtp"
 	"github.com/errom502/email-service/internal/tools"
 	"github.com/errom502/email-service/internal/usecase"
-
 	"github.com/nats-io/nats.go"
 	"github.com/nats-io/nats.go/jetstream"
 	"github.com/redis/go-redis/v9"
@@ -323,9 +322,10 @@ func (a *app) connectToSmtpProvider(c context.Context) (*mail.Client, error) {
 			mail.WithSMTPAuth(mail.SMTPAuthPlain),
 			mail.WithUsername(a.config.SMTP.User),
 			mail.WithPassword(a.config.SMTP.Password),
-			mail.WithTLSPolicy(mail.TLSMandatory),
+			mail.WithTLSPolicy(mail.TLSOpportunistic),
 			mail.WithTLSConfig(&tls.Config{
 				MinVersion: tls.VersionTLS12,
+				ServerName: a.config.SMTP.Host,
 			}),
 		)
 	}
@@ -344,7 +344,10 @@ func (a *app) connectToSmtpProvider(c context.Context) (*mail.Client, error) {
 	msg.Subject("test")
 	msg.SetBodyString(mail.TypeTextPlain, "Test body")
 
-	err = client.DialAndSendWithContext(c, msg)
+	ctx, cancel := context.WithTimeout(c, 10*time.Second)
+	defer cancel()
+
+	err = client.DialAndSendWithContext(ctx, msg)
 	if err != nil {
 		return nil, fmt.Errorf("app.connectToSmtpProvider: failed to dial: %w", err)
 	}
