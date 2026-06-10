@@ -96,7 +96,7 @@ type SMTP struct {
 	// From адрес отправителя писем
 	From string `long:"smtp-from" env:"SMTP_FROM"`
 	// Subject тема письма
-	Subject string `long:"smtp-subject" env:"SMTP_SUBJECT" default:"Подтверждение регистрации: {{verification_link}}"`
+	Subject string `long:"smtp-subject" env:"SMTP_SUBJECT" default:"Подтверждение регистрации"`
 	// MessageTemplate шаблон письма. В шаблоне должен быть плейсхолдер {{verification_link}} для ссылки на подтверждение регистрации.
 	// Пример:
 	/*
@@ -104,7 +104,7 @@ type SMTP struct {
 		Для подтверждения регистрации перейдите по ссылке:
 		{{verification_link}}
 	*/
-	MessageTemplate string `long:"smtp-message-template" env:"SMTP_MESSAGE_TEMPLATE" required:"true"`
+	MessageTemplate string `long:"smtp-message-template" env:"SMTP_MESSAGE_TEMPLATE" default:"Перейдите по ссылке:<br><a href='http://{{verification_link}}'>http://{{verification_link}}</a>"`
 	// SendTimeoutMs время ожидания отправки письма в миллисекундах
 	SendTimeoutMs int `long:"smtp-send-timeout-ms" env:"SMTP_SEND_TIMEOUT_MS" default:"5000"`
 }
