@@ -1,0 +1,51 @@
+version: "3.9"
+
+services:
+  redis:
+    image: redis:latest
+    container_name: verification-redis
+    restart: always
+    ports:
+        - "6379:6379"
+    volumes:
+        - ./redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  nats:
+    image: nats:2.12-alpine
+    container_name: verification-nats
+    restart: unless-stopped
+    command:
+      - "--jetstream"
+      - "--http_port=8222"
+    ports:
+      - "4222:4222" # client port
+      - "8222:8222" # monitoring
+    volumes:
+      - nats_data:/data/jetstream
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8222/healthz"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  mailpit:
+    image: axllent/mailpit:latest
+    container_name: email-service-mailpit
+    restart: unless-stopped
+    ports:
+      - "1025:1025" # smtp
+      - "8025:8025" # web ui
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8025"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  redis_data:
+  nats_data:
