@@ -2,7 +2,8 @@ package nats
 
 import (
 	"context"
-	"email-service/internal/entity"
+
+	"github.com/errom502/email-service/internal/entity"
 )
 
 type VerificationCreatedHandler interface {

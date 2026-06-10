@@ -2,12 +2,13 @@ package usecase
 
 import (
 	"context"
-	"email-service/internal/entity"
-	"email-service/internal/shared"
-	smtpSource "email-service/internal/source/smtp"
-	"email-service/internal/tools"
 	"errors"
 	"time"
+
+	"github.com/errom502/email-service/internal/entity"
+	"github.com/errom502/email-service/internal/shared"
+	smtpSource "github.com/errom502/email-service/internal/source/smtp"
+	"github.com/errom502/email-service/internal/tools"
 
 	"github.com/google/uuid"
 	"go.uber.org/zap"

@@ -2,7 +2,8 @@ package usecase
 
 import (
 	"context"
-	"email-service/internal/entity"
+
+	"github.com/errom502/email-service/internal/entity"
 
 	"github.com/google/uuid"
 )

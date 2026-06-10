@@ -2,9 +2,6 @@ package main
 
 import (
 	"context"
-	"email-service/cmd/config"
-	"email-service/internal/app"
-	"email-service/internal/tools"
 	"errors"
 	"fmt"
 	"log"
@@ -13,6 +10,10 @@ import (
 	"runtime"
 	"syscall"
 	"time"
+
+	"github.com/errom502/email-service/cmd/config"
+	"github.com/errom502/email-service/internal/app"
+	"github.com/errom502/email-service/internal/tools"
 
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"

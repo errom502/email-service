@@ -2,12 +2,13 @@ package smtp
 
 import (
 	"context"
-	"email-service/internal/shared"
 	"errors"
 	"fmt"
 	"net/mail"
 	"strings"
 	"time"
+
+	"github.com/errom502/email-service/internal/shared"
 
 	go_mail "github.com/wneessen/go-mail"
 )

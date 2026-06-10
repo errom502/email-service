@@ -1,4 +1,4 @@
-module email-service
+module github.com/errom502/email-service
 
 go 1.26
 

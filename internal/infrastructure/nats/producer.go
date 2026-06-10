@@ -2,11 +2,11 @@ package nats
 
 import (
 	"context"
-	"email-service/internal/entity"
-	"email-service/internal/tools"
 	"encoding/json"
 	"fmt"
 
+	"github.com/errom502/email-service/internal/entity"
+	"github.com/errom502/email-service/internal/tools"
 	"github.com/nats-io/nats.go/jetstream"
 )
 
