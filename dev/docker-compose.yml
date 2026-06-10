@@ -46,6 +46,16 @@ services:
       timeout: 3s
       retries: 10
 
+  email-service:
+    build:
+      context: ./email-service
+    container_name: email-service
+    restart: unless-stopped
+    environment:
+    depends_on:
+      - redis
+      - nats
+
 volumes:
   redis_data:
   nats_data:
