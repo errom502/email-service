@@ -338,19 +338,19 @@ func (a *app) connectToSmtpProvider(c context.Context) (*mail.Client, error) {
 		return nil, fmt.Errorf("app.connectToSmtpProvider: %w", err)
 	}
 
-	msg := mail.NewMsg()
-	msg.From(a.config.SMTP.From)
-	msg.To(a.config.SMTP.From)
-	msg.Subject("test")
-	msg.SetBodyString(mail.TypeTextPlain, "Test body")
+	// msg := mail.NewMsg()
+	// msg.From(a.config.SMTP.From)
+	// msg.To(a.config.SMTP.From)
+	// msg.Subject("test")
+	// msg.SetBodyString(mail.TypeTextPlain, "Test body")
 
-	ctx, cancel := context.WithTimeout(c, 10*time.Second)
-	defer cancel()
+	// ctx, cancel := context.WithTimeout(c, 10*time.Second)
+	// defer cancel()
 
-	err = client.DialAndSendWithContext(ctx, msg)
-	if err != nil {
-		return nil, fmt.Errorf("app.connectToSmtpProvider: failed to dial: %w", err)
-	}
+	// err = client.DialAndSendWithContext(ctx, msg)
+	// if err != nil {
+	// 	return nil, fmt.Errorf("app.connectToSmtpProvider: failed to dial: %w", err)
+	// }
 
 	return client, nil
 }
